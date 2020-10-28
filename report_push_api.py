@@ -55,7 +55,7 @@ def get_data():
   output = result['hits']['hits']
   Allitem = [{"backup_id":"backup_id","backup_project":"backup_project","backup_method":"backup_method","ip_addr":"ip_addr","backup_path":"backup_path","backup_status":"backup_status","backup_time":"backup_time"}]
   for i in output:
-    item = {"backup_id":i['_id'],"backup_project":i['_source']['backup_project'],"backup_method":i['_source']['backup_method'],"ip_addr":i['_source']['backup_method'],"backup_path":i['_source']['backup_path'],"backup_status":i['_source']['status'],"backup_time":i['_source']['backup_time']}
+    item = {"backup_id":i['_id'],"backup_project":i['_source']['backup_project'],"backup_method":i['_source']['backup_method'],"ip_addr":i['_source']['ip_addr'],"backup_path":i['_source']['backup_path'],"backup_status":i['_source']['status'],"backup_time":i['_source']['backup_time']}
     Allitem.append(item)
   return Allitem
 
