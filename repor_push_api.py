@@ -40,13 +40,27 @@ def  mail_push(to,subject,content_html):
   server.send_mail(to,mail)
 
 
-def trigger_http():
+
 
 
   ## 查询数据库组成数据结构
   ## elastisearch 查询
-  
+def get_data():
+  eshost = "http://172.24.126.15:9200/"
+  auth = auth=requests.auth.HTTPBasicAuth('elastic', 'elastic')
+  headers = {'Content-Type':'application/json'}
+  url = eshost + "backup-monitor.2020.10.28/_search?pretty=true&q=*:*"
+  r = requests.get(url, headers=headers,auth=auth)
+  result = r.json()
+  output = result['hits']['hits']
+  Allitem = []
+  for i in output:
+    item = {i['_id'],i['_source']['backup_project'],i['_source']['backup_method'],i['_source']['backup_method'],i['_source']['backup_path'],i['_source']['backup_status'],i['_source']['backup_time']}
+    Allitem += item
+  return Allitem
 
+  
+def trigger_http():
 
   ## 数据结构
   jsonList=[
@@ -57,6 +71,8 @@ def trigger_http():
     {"backup_project":"Grafana Template","backup_method":"shell","ip_addr":"172.20.250.220","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
     {"backup_project":"OpenStack Config","backup_method":"shell","ip_addr":"172.20.250.221","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"}
   ]
+  
+  jsonList = get_data()
   ## 颜色定义 支持blue,orange 
   send_body = genHtmltable("orange",jsonList)
   send_title = '''<h2 style="color:black ;display:inline;text-align: center; ">今日备份CheckList</h2>'''
