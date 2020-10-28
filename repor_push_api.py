@@ -53,24 +53,25 @@ def get_data():
   r = requests.get(url, headers=headers,auth=auth)
   result = r.json()
   output = result['hits']['hits']
-  Allitem = []
+  Allitem = [{"backup_id":"backup_id","backup_project":"backup_project","backup_method":"backup_method","ip_addr":"ip_addr","backup_path":"backup_path","backup_status":"backup_status","backup_time":"backup_time"}]
   for i in output:
-    item = {i['_id'],i['_source']['backup_project'],i['_source']['backup_method'],i['_source']['backup_method'],i['_source']['backup_path'],i['_source']['backup_status'],i['_source']['backup_time']}
-    Allitem += item
+    item = {"backup_id":i['_id'],"backup_project":i['_source']['backup_project'],"backup_method":i['_source']['backup_method'],"ip_addr":i['_source']['backup_method'],"backup_path":i['_source']['backup_path'],"backup_status":i['_source']['status'],"backup_time":i['_source']['backup_time']}
+    Allitem.append(item)
   return Allitem
+
 
   
 def trigger_http():
 
   ## 数据结构
-  jsonList=[
-   {"backup_project":"backup_project","backup_method":"backup_method","ip_addr":"ip_addr","backup_path":"backup_path","backup_status":"backup_status","backup_time":"backup_time"},
-    {"backup_project":"Zabbix数据库","backup_method":"mysqldump","ip_addr":"172.20.250.217","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
-    {"backup_project":"Jumpserver数据库","backup_method":"mysqldump","ip_addr":"172.20.250.218","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
-    {"backup_project":"DNS Record","backup_method":"email","ip_addr":"172.20.250.219","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
-    {"backup_project":"Grafana Template","backup_method":"shell","ip_addr":"172.20.250.220","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
-    {"backup_project":"OpenStack Config","backup_method":"shell","ip_addr":"172.20.250.221","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"}
-  ]
+  #jsonList=[
+    #{"backup_project":"backup_project","backup_method":"backup_method","ip_addr":"ip_addr","backup_path":"backup_path","backup_status":"backup_status","backup_time":"backup_time"},
+    #{"backup_project":"Zabbix数据库","backup_method":"mysqldump","ip_addr":"172.20.250.217","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
+    #{"backup_project":"Jumpserver数据库","backup_method":"mysqldump","ip_addr":"172.20.250.218","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
+    #{"backup_project":"DNS Record","backup_method":"email","ip_addr":"172.20.250.219","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
+    #{"backup_project":"Grafana Template","backup_method":"shell","ip_addr":"172.20.250.220","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"},
+    #{"backup_project":"OpenStack Config","backup_method":"shell","ip_addr":"172.20.250.221","backup_path":"//data","backup_status":"ok","backup_time":"2020年10月16日15:38:10"}
+  #]
   
   jsonList = get_data()
   ## 颜色定义 支持blue,orange 
