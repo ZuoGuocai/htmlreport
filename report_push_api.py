@@ -2,6 +2,7 @@
 ##author: zuoguocai@126.com
 ## html report
 import zmail
+import time
 
 def genHtmltable(color,jsonList):
 
@@ -49,13 +50,14 @@ def get_data():
   eshost = "http://172.24.126.15:9200/"
   auth = auth=requests.auth.HTTPBasicAuth('elastic', 'elastic')
   headers = {'Content-Type':'application/json'}
-  url = eshost + "backup-monitor.2020.10.28/_search?pretty=true&q=*:*"
+  date = time.strftime("%Y.%m.%d", time.localtime())
+  url = eshost + "backup-monitor-" + date + "/_search?pretty=true&q=*:*"
   r = requests.get(url, headers=headers,auth=auth)
   result = r.json()
   output = result['hits']['hits']
   Allitem = [{"backup_id":"backup_id","backup_project":"backup_project","backup_method":"backup_method","ip_addr":"ip_addr","backup_path":"backup_path","backup_status":"backup_status","backup_time":"backup_time"}]
   for i in output:
-    item = {"backup_id":i['_id'],"backup_project":i['_source']['backup_project'],"backup_method":i['_source']['backup_method'],"ip_addr":i['_source']['ip_addr'],"backup_path":i['_source']['backup_path'],"backup_status":i['_source']['status'],"backup_time":i['_source']['backup_time']}
+    item = {"backup_id":i['_id'],"backup_project":i['_source']['backup_project'],"backup_method":i['_source']['backup_method'],"ip_addr":i['_source']['ip_addr'],"backup_path":i['_source']['backup_path'],"backup_status":i['_source']['backup_status'],"backup_time":i['_source']['backup_time']}
     Allitem.append(item)
   return Allitem
 
